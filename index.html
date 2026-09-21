@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Rosa Amarilla</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #050203;
+      overflow: hidden;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 70% at 50% 55%, 
+        rgba(45, 30, 5, 0.55) 0%, 
+        rgba(12, 8, 2, 0.9) 50%, 
+        #050203 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .scene {
+      position: relative;
+      width: 360px;
+      height: 520px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      z-index: 1;
+    }
+
+    /* MENSAJE */
+    .message {
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      opacity: 0;
+      animation: messageIn 1.4s cubic-bezier(0.22, 1, 0.36, 1) 5.1s forwards;
+      z-index: 40;
+      width: 100%;
+    }
+
+    .message h1 {
+      font-size: 1.85rem;
+      font-weight: 400;
+      font-style: italic;
+      color: #f5e6b8;
+      letter-spacing: 1.5px;
+      text-shadow: 
+        0 0 30px rgba(255, 200, 50, 0.35),
+        0 2px 8px rgba(0, 0, 0, 0.9);
+      margin-bottom: 6px;
+    }
+
+    .message p {
+      font-size: 1.05rem;
+      color: #d4c090;
+      letter-spacing: 3px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .heart {
+      display: inline-block;
+      color: #e8b923;
+      animation: heartbeat 1.4s ease-in-out infinite;
+      margin-left: 4px;
+    }
+
+    /* SUELO */
+    .ground {
+      position: absolute;
+      bottom: 8px;
+      width: 220px;
+      height: 50px;
+      background: radial-gradient(ellipse at center, 
+        rgba(20, 50, 25, 0.5) 0%, 
+        transparent 70%);
+      border-radius: 50%;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.3s forwards;
+    }
+
+    /* TALLO */
+    .stem-wrapper {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 0;
+      animation: growStem 2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+      z-index: 5;
+      transform-origin: bottom center;
+    }
+
+    .stem {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, 
+        #0f3d1a 0%, 
+        #1a5c2a 30%, 
+        #2a7a3a 70%, 
+        #3a9a4a 100%);
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 
+        inset -2px 0 4px rgba(0, 0, 0, 0.3),
+        inset 2px 0 4px rgba(255, 255, 255, 0.08);
+    }
+
+    .stem::before,
+    .stem::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 3px;
+      background: #1a4a22;
+      border-radius: 1px;
+      opacity: 0.7;
+    }
+    .stem::before {
+      left: -4px;
+      bottom: 55%;
+      transform: rotate(-35deg);
+    }
+    .stem::after {
+      right: -4px;
+      bottom: 35%;
+      transform: rotate(35deg);
+    }
+
+    /* HOJAS */
+    .leaf {
+      position: absolute;
+      width: 52px;
+      height: 28px;
+      background: linear-gradient(145deg, #1a6b2a, #2d9a40 50%, #3cb371);
+      border-radius: 2% 100% 2% 100%;
+      opacity: 0;
+      z-index: 6;
+      box-shadow: 
+        inset 1px 1px 4px rgba(255, 255, 255, 0.15),
+        0 3px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .leaf::after {
+      content: '';
+      position: absolute;
+      top: 45%;
+      left: 10%;
+      width: 70%;
+      height: 1.5px;
+      background: linear-gradient(to right, transparent, rgba(0, 40, 10, 0.4), transparent);
+      border-radius: 1px;
+    }
+
+    .leaf-left {
+      bottom: 125px;
+      left: calc(50% - 54px);
+      transform-origin: right center;
+      animation: leafLeft 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) 1.9s forwards;
+    }
+
+    .leaf-right {
+      bottom: 165px;
+      left: calc(50% + 4px);
+      transform-origin: left center;
+      animation: leafRight 0.9s cubic-bezier(0.34, 1.3, 0.64, 1) 2.2s forwards;
+    }
+
+    /* FLOR */
+    .flower {
+      position: absolute;
+      bottom: 225px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 180px;
+      z-index: 15;
+    }
+
+    .petal {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 50% 50% 45% 45% / 65% 65% 35% 35%;
+      transform-origin: 50% 90%;
+      opacity: 0;
+      box-shadow: 
+        inset 3px 3px 12px rgba(255, 240, 180, 0.35),
+        inset -4px -6px 14px rgba(120, 70, 0, 0.4),
+        0 6px 16px rgba(0, 0, 0, 0.35);
+      background: 
+        radial-gradient(ellipse 80% 60% at 35% 25%, 
+          rgba(255, 245, 180, 0.95) 0%, 
+          transparent 50%),
+        radial-gradient(ellipse at 50% 80%, 
+          #b8860b 0%, 
+          #d4a017 25%, 
+          #e8b923 50%, 
+          #f0d060 75%, 
+          #fff0a0 100%);
+    }
+
+    .layer-inner .petal {
+      background: 
+        radial-gradient(ellipse 70% 50% at 40% 20%, 
+          rgba(255, 250, 210, 0.9) 0%, 
+          transparent 45%),
+        radial-gradient(ellipse at 50% 70%, 
+          #c9a227 0%, 
+          #e8b923 35%, 
+          #f5d76e 65%, 
+          #fff5b8 100%);
+    }
+
+    .layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* CENTRO */
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 32px;
+      height: 32px;
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 30;
+      animation: centerBloom 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 4.3s forwards;
+    }
+
+    .center-core {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 40% 35%, 
+        #fff8dc 0%, 
+        #ffe066 35%, 
+        #ffc107 65%, 
+        #e6a800 100%);
+      border-radius: 50%;
+      box-shadow: 
+        0 0 20px rgba(255, 210, 60, 0.65),
+        inset 2px 2px 6px rgba(255, 255, 220, 0.55),
+        inset -2px -2px 6px rgba(140, 80, 0, 0.35);
+    }
+
+    .stamen {
+      position: absolute;
+      width: 2px;
+      height: 14px;
+      background: linear-gradient(to top, #c9a227, #ffd700);
+      border-radius: 1px;
+      transform-origin: bottom center;
+      top: 50%;
+      left: 50%;
+      opacity: 0;
+      animation: stamenIn 0.5s ease 4.5s forwards;
+    }
+
+    .spark {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #ffd700;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 0 6px #ffd700;
+    }
+
+    /* BOTÓN */
+    .restart {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(180, 140, 30, 0.12);
+      border: 1px solid rgba(220, 180, 60, 0.35);
+      color: #e8d090;
+      padding: 11px 26px;
+      border-radius: 40px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: all 0.35s ease;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 6s forwards;
+      z-index: 50;
+    }
+
+    .restart:hover {
+      background: rgba(200, 160, 40, 0.25);
+      border-color: rgba(240, 200, 80, 0.6);
+      transform: translateX(-50%) scale(1.04);
+      color: #ffe8a0;
+    }
+
+    /* KEYFRAMES */
+    @keyframes growStem {
+      from { height: 0; }
+      to { height: 195px; }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes leafLeft {
+      0% {
+        opacity: 0;
+        transform: rotate(-50deg) scale(0) translateX(10px);
+      }
+      70% {
+        opacity: 1;
+        transform: rotate(-32deg) scale(1.08);
+      }
+      100% {
+        opacity: 1;
+        transform: rotate(-38deg) scale(1);
+      }
+    }
+
+    @keyframes leafRight {
+      0% {
+        opacity: 0;
+        transform: rotate(160deg) scale(0) translateX(-10px);
+      }
+      70% {
+        opacity: 1;
+        transform: rotate(148deg) scale(1.08);
+      }
+      100% {
+        opacity: 1;
+        transform: rotate(142deg) scale(1);
+      }
+    }
+
+    @keyframes petalBloom {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(var(--angle)) 
+                   translateY(8px) scale(0.15) rotateX(40deg);
+      }
+      55% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(var(--angle)) 
+                   translateY(var(--lift)) scale(var(--scale)) rotateX(0deg);
+      }
+    }
+
+    @keyframes centerBloom {
+      0% { transform: translate(-50%, -50%) scale(0); }
+      65% { transform: translate(-50%, -50%) scale(1.18); }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @keyframes stamenIn {
+      to { opacity: 0.9; }
+    }
+
+    @keyframes messageIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(18px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.28); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.18); }
+      56% { transform: scale(1); }
+    }
+
+    @keyframes sparkFloat {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.4);
+      }
+      25% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="message">
+      <h1>Esta rosa es para ti</h1>
+      <p>con todo mi cariño <span class="heart">♥</span></p>
+    </div>
+
+    <div class="flower" id="flower">
+      <div class="center">
+        <div class="center-core"></div>
+      </div>
+    </div>
+
+    <div class="stem-wrapper">
+      <div class="stem"></div>
+    </div>
+
+    <div class="leaf leaf-left"></div>
+    <div class="leaf leaf-right"></div>
+    <div class="ground"></div>
+  </div>
+
+  <button class="restart" onclick="location.reload()">Ver de nuevo</button>
+
+  <script>
+    const flower = document.getElementById('flower');
+    const center = flower.querySelector('.center');
+
+    const layers = [
+      { count: 9, delay: 2.5,  lift: -48, scale: 1.05, z: 1 },
+      { count: 8, delay: 2.85, lift: -40, scale: 0.98, z: 2 },
+      { count: 7, delay: 3.2,  lift: -32, scale: 0.90, z: 3 },
+      { count: 6, delay: 3.5,  lift: -24, scale: 0.80, z: 4 },
+      { count: 5, delay: 3.8,  lift: -16, scale: 0.68, z: 5 }
+    ];
+
+    layers.forEach((layer, li) => {
+      const layerEl = document.createElement('div');
+      layerEl.className = 'layer' + (li >= 3 ? ' layer-inner' : '');
+      layerEl.style.zIndex = layer.z;
+      flower.appendChild(layerEl);
+
+      const angleStep = 360 / layer.count;
+      const offset = li * 12 + (Math.random() - 0.5) * 6;
+
+      for (let i = 0; i < layer.count; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+
+        const angle = offset + i * angleStep + (Math.random() - 0.5) * 7;
+        const delay = layer.delay + i * 0.055 + Math.random() * 0.08;
+        const duration = 1.05 + Math.random() * 0.25;
+
+        const w = 58 * layer.scale;
+        const h = 72 * layer.scale;
+
+        petal.style.width = w + 'px';
+        petal.style.height = h + 'px';
+        petal.style.marginLeft = (-w / 2) + 'px';
+        petal.style.marginTop = (-h / 2) + 'px';
+        petal.style.setProperty('--angle', angle + 'deg');
+        petal.style.setProperty('--lift', layer.lift + 'px');
+        petal.style.setProperty('--scale', layer.scale);
+        petal.style.animation = `petalBloom ${duration}s cubic-bezier(0.33, 1.35, 0.64, 1) ${delay}s forwards`;
+
+        layerEl.appendChild(petal);
+      }
+    });
+
+    for (let i = 0; i < 12; i++) {
+      const s = document.createElement('div');
+      s.className = 'stamen';
+      const a = (i / 12) * 360 + (Math.random() - 0.5) * 15;
+      const len = 11 + Math.random() * 5;
+      s.style.height = len + 'px';
+      s.style.transform = `translate(-50%, -100%) rotate(${a}deg)`;
+      s.style.animationDelay = (4.55 + Math.random() * 0.2) + 's';
+      center.appendChild(s);
+    }
+
+    function createSparks() {
+      for (let i = 0; i < 22; i++) {
+        const sp = document.createElement('div');
+        sp.className = 'spark';
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 50 + Math.random() * 90;
+        sp.style.setProperty('--tx', (Math.cos(angle) * dist) + 'px');
+        sp.style.setProperty('--ty', (Math.sin(angle) * dist - 40) + 'px');
+        sp.style.left = '50%';
+        sp.style.top = '50%';
+        sp.style.animation = `sparkFloat ${1.4 + Math.random() * 0.9}s ease-out ${4.4 + Math.random() * 0.7}s forwards`;
+        flower.appendChild(sp);
+      }
+    }
+    createSparks();
+  </script>
+</body>
+</html>
+
