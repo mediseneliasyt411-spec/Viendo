@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para ti ❤️</title>
+  <title>Una pregunta importante</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -18,7 +20,7 @@
       align-items: center;
       background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
       background-size: cover;
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
       position: relative;
     }
@@ -27,131 +29,188 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(0, 0, 0, 0.35);
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.55));
       z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 18px;
+      opacity: 0.6;
+      animation: floatHeart 9s linear infinite;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% {
+        transform: translateY(-10vh) rotate(360deg);
+        opacity: 0;
+      }
     }
 
     .container {
       position: relative;
-      z-index: 1;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      padding: 50px 40px;
-      border-radius: 28px;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 50px 45px 45px;
+      border-radius: 24px;
+      box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(255, 255, 255, 0.4);
       text-align: center;
       max-width: 460px;
-      width: 90%;
-      animation: aparecer 1s ease;
+      width: 91%;
+      animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @keyframes aparecer {
+    @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: scale(0.85) translateY(40px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: translateY(0);
       }
     }
 
-    .emoji {
+    .couple {
       font-size: 64px;
-      margin-bottom: 10px;
-      animation: latir 1.4s infinite;
+      margin-bottom: 12px;
+      display: inline-block;
+      animation: gentleBounce 3s ease-in-out infinite;
     }
 
-    @keyframes latir {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.15); }
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
     h1 {
-      color: #c2185b;
-      font-size: 26px;
-      line-height: 1.4;
-      margin-bottom: 12px;
+      font-family: 'Cormorant Garamond', serif;
+      color: #9f1239;
+      font-size: 32px;
+      line-height: 1.3;
+      margin-bottom: 16px;
       font-weight: 700;
     }
 
-    .subtitulo {
-      color: #555;
-      font-size: 17px;
-      margin-bottom: 35px;
-      line-height: 1.5;
+    .subtitle {
+      color: #475569;
+      font-size: 15.5px;
+      line-height: 1.7;
+      margin-bottom: 36px;
     }
 
-    .botones {
+    .buttons {
       display: flex;
-      flex-direction: column;   /* Uno debajo del otro */
+      flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     button {
-      padding: 15px 36px;
-      font-size: 18px;
+      padding: 15px 38px;
+      font-size: 16px;
       font-weight: 600;
       border: none;
-      border-radius: 50px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      min-width: 200px;
+      min-width: 230px;
     }
 
-    #si {
-      background: linear-gradient(135deg, #e91e63, #c2185b);
+    #yes {
+      background: #be123c;
       color: white;
+      box-shadow: 0 10px 25px rgba(190, 18, 60, 0.3);
     }
 
-    #si:hover {
-      transform: scale(1.06);
-      box-shadow: 0 12px 25px rgba(233, 30, 99, 0.45);
+    #yes:hover {
+      background: #9f1239;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(190, 18, 60, 0.4);
     }
 
     #no {
-      background: #f0f0f0;
-      color: #666;
+      background: transparent;
+      color: #64748b;
+      border: 1.5px solid #e2e8f0;
     }
 
     #no:hover {
-      background: #e5e5e5;
+      background: #f8fafc;
+      border-color: #cbd5e1;
     }
 
-    /* Pantalla de respuesta */
-    .respuesta {
+    .response {
       display: none;
-      animation: aparecer 0.7s ease;
+      animation: fadeIn 0.8s ease;
     }
 
-    .respuesta h2 {
-      color: #c2185b;
-      font-size: 32px;
-      margin-bottom: 15px;
+    .response .couple {
+      font-size: 72px;
     }
 
-    .respuesta p {
-      font-size: 18px;
-      color: #444;
-      line-height: 1.6;
+    .response h2 {
+      font-family: 'Cormorant Garamond', serif;
+      color: #9f1239;
+      font-size: 30px;
+      margin-bottom: 14px;
+      line-height: 1.3;
     }
 
-    /* Confeti */
-    .confeti {
+    .response p {
+      font-size: 16px;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    .music-btn {
       position: fixed;
-      width: 11px;
-      height: 11px;
-      top: -20px;
-      z-index: 10;
-      animation: caer 3.5s linear forwards;
-      border-radius: 2px;
+      bottom: 28px;
+      right: 28px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: all 0.3s ease;
     }
 
-    @keyframes caer {
+    .music-btn:hover {
+      transform: scale(1.1);
+      background: white;
+    }
+
+    .confetti {
+      position: fixed;
+      width: 9px;
+      height: 9px;
+      top: -20px;
+      z-index: 100;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
       to {
-        transform: translateY(110vh) rotate(720deg);
+        transform: translateY(110vh) rotate(520deg);
         opacity: 0;
       }
     }
@@ -159,65 +218,126 @@
 </head>
 <body>
 
-  <!-- Tarjeta de la pregunta -->
-  <div class="container" id="pregunta">
-    <div class="emoji">👑💕</div>
+  <div id="hearts"></div>
+
+  <div class="container" id="question">
+    <div class="couple">👩‍❤️‍👨</div>
     <h1>¿Quieres ser mi reina,<br>mi novia, mi todo?</h1>
-    <p class="subtitulo">
-      Porque desde que llegaste a mi vida,<br>
-      ya no imagino un día sin ti.
+    <p class="subtitle">
+      Hay preguntas que solo se hacen una vez en la vida.<br>
+      Esta es la mía.
     </p>
 
-    <div class="botones">
-      <button id="si">¡Sí, acepto! 💖</button>
+    <div class="buttons">
+      <button id="yes">Sí, acepto</button>
       <button id="no">No</button>
     </div>
   </div>
 
-  <!-- Tarjeta de respuesta -->
-  <div class="container respuesta" id="respuesta">
-    <div class="emoji">🥰👑</div>
-    <h2>¡Ahora eres oficialmente mi reina!</h2>
+  <div class="container response" id="response">
+    <div class="couple">🥰👩‍❤️‍👨</div>
+    <h2>Ahora eres oficialmente<br>mi reina</h2>
     <p>
-      Gracias por decir que sí.<br>
-      Prometo cuidarte, amarte y hacerte sonreír<br>
-      todos los días de mi vida.
+      Gracias por confiar en mí.<br>
+      Prometo cuidarte, respetarte y amarte<br>
+      cada día de mi vida.
     </p>
   </div>
 
+  <!-- Botón de música -->
+  <button class="music-btn" id="musicBtn" title="Música">🎵</button>
+
+  <!-- Música romántica (funciona) -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://archive.org/download/soundcloud-382924121/Romantic_Piano_-_No_Copyright_Wedding_Background_Music_For_Videos_Films-382924121.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
-    const btnSi = document.getElementById('si');
+    // Corazones flotantes
+    const heartsContainer = document.getElementById('hearts');
+    const heartEmojis = ['💖', '💕', '💗', '💓', '❤️'];
+
+    for (let i = 0; i < 15; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 5 + 7) + 's';
+      heart.style.animationDelay = Math.random() * 8 + 's';
+      heart.style.fontSize = (Math.random() * 12 + 14) + 'px';
+      heartsContainer.appendChild(heart);
+    }
+
+    const btnYes = document.getElementById('yes');
     const btnNo = document.getElementById('no');
-    const pregunta = document.getElementById('pregunta');
-    const respuesta = document.getElementById('respuesta');
+    const question = document.getElementById('question');
+    const response = document.getElementById('response');
+    const musicBtn = document.getElementById('musicBtn');
+    const bgMusic = document.getElementById('bgMusic');
 
-    // Cuando dice que sí
-    btnSi.addEventListener('click', () => {
-      pregunta.style.display = 'none';
-      respuesta.style.display = 'block';
-      crearConfeti();
-    });
+    let isPlaying = false;
 
-    // Si presiona No (opcional: puedes poner un mensaje o simplemente no hacer nada)
-    btnNo.addEventListener('click', () => {
-      alert('¿Segura? 🥺 El botón de arriba está esperándote...');
-    });
-
-    function crearConfeti() {
-      const colores = ['#e91e63', '#ff4081', '#f48fb1', '#ce93d8', '#ff80ab', '#ff1744', '#ffd700'];
+    // Intentar reproducir automáticamente al cargar
+    window.addEventListener('load', () => {
+      bgMusic.volume = 0.6;
+      const playPromise = bgMusic.play();
       
-      for (let i = 0; i < 100; i++) {
-        const confeti = document.createElement('div');
-        confeti.classList.add('confeti');
-        confeti.style.left = Math.random() * 100 + 'vw';
-        confeti.style.background = colores[Math.floor(Math.random() * colores.length)];
-        confeti.style.width = (Math.random() * 8 + 6) + 'px';
-        confeti.style.height = confeti.style.width;
-        confeti.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-        confeti.style.animationDelay = Math.random() * 0.6 + 's';
-        document.body.appendChild(confeti);
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          isPlaying = true;
+          musicBtn.textContent = '🔊';
+        }).catch(() => {
+          // El navegador bloqueó el autoplay (normal)
+          isPlaying = false;
+          musicBtn.textContent = '🎵';
+        });
+      }
+    });
 
-        setTimeout(() => confeti.remove(), 4500);
+    // Botón de música
+    musicBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = '🎵';
+      } else {
+        bgMusic.play();
+        musicBtn.textContent = '🔊';
+      }
+      isPlaying = !isPlaying;
+    });
+
+    btnYes.addEventListener('click', () => {
+      question.style.display = 'none';
+      response.style.display = 'block';
+      createConfetti();
+
+      // Asegurar que suene la música al aceptar
+      if (!isPlaying) {
+        bgMusic.play();
+        isPlaying = true;
+        musicBtn.textContent = '🔊';
+      }
+    });
+
+    btnNo.addEventListener('click', () => {
+      alert('Está bien… el botón de arriba seguirá esperando 🥺');
+    });
+
+    function createConfetti() {
+      const colors = ['#be123c', '#e11d48', '#fb7185', '#fda4af', '#fecdd3', '#9f1239'];
+      
+      for (let i = 0; i < 90; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = (Math.random() * 7 + 6) + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.animationDuration = (Math.random() * 2.2 + 2.6) + 's';
+        confetti.style.animationDelay = Math.random() * 0.6 + 's';
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 4500);
       }
     }
   </script>
