@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>¿Quieres ser mi novia?</title>
+  <title>Para ti ❤️</title>
   <style>
     * {
       margin: 0;
@@ -16,27 +16,39 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fbc2eb 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', system-ui, sans-serif;
       overflow: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.35);
+      z-index: 0;
     }
 
     .container {
-      background: white;
-      padding: 50px 40px;
-      border-radius: 30px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      max-width: 420px;
-      width: 90%;
       position: relative;
-      animation: aparecer 0.8s ease;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      padding: 50px 40px;
+      border-radius: 28px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 460px;
+      width: 90%;
+      animation: aparecer 1s ease;
     }
 
     @keyframes aparecer {
       from {
         opacity: 0;
-        transform: scale(0.8) translateY(30px);
+        transform: scale(0.85) translateY(40px);
       }
       to {
         opacity: 1;
@@ -44,25 +56,27 @@
       }
     }
 
-    .corazon {
-      font-size: 70px;
-      animation: latir 1.2s infinite;
-      margin-bottom: 15px;
+    .emoji {
+      font-size: 64px;
+      margin-bottom: 10px;
+      animation: latir 1.4s infinite;
     }
 
     @keyframes latir {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
+      50% { transform: scale(1.15); }
     }
 
     h1 {
-      color: #e91e63;
-      font-size: 28px;
+      color: #c2185b;
+      font-size: 26px;
+      line-height: 1.4;
       margin-bottom: 12px;
+      font-weight: 700;
     }
 
-    p {
-      color: #666;
+    .subtitulo {
+      color: #555;
       font-size: 17px;
       margin-bottom: 35px;
       line-height: 1.5;
@@ -70,51 +84,50 @@
 
     .botones {
       display: flex;
-      justify-content: center;
-      gap: 20px;
-      position: relative;
-      height: 55px;
+      flex-direction: column;   /* Uno debajo del otro */
+      align-items: center;
+      gap: 14px;
     }
 
     button {
-      padding: 14px 32px;
+      padding: 15px 36px;
       font-size: 18px;
       font-weight: 600;
       border: none;
       border-radius: 50px;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      min-width: 200px;
     }
 
     #si {
-      background: #e91e63;
+      background: linear-gradient(135deg, #e91e63, #c2185b);
       color: white;
     }
 
     #si:hover {
-      background: #c2185b;
-      transform: scale(1.08);
-      box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+      transform: scale(1.06);
+      box-shadow: 0 12px 25px rgba(233, 30, 99, 0.45);
     }
 
     #no {
-      background: #f5f5f5;
-      color: #555;
-      position: absolute;
+      background: #f0f0f0;
+      color: #666;
     }
 
     #no:hover {
-      background: #eeeeee;
+      background: #e5e5e5;
     }
 
+    /* Pantalla de respuesta */
     .respuesta {
       display: none;
-      animation: aparecer 0.6s ease;
+      animation: aparecer 0.7s ease;
     }
 
     .respuesta h2 {
-      color: #e91e63;
+      color: #c2185b;
       font-size: 32px;
       margin-bottom: 15px;
     }
@@ -122,59 +135,61 @@
     .respuesta p {
       font-size: 18px;
       color: #444;
+      line-height: 1.6;
     }
 
+    /* Confeti */
     .confeti {
       position: fixed;
-      width: 12px;
-      height: 12px;
-      background: #e91e63;
+      width: 11px;
+      height: 11px;
       top: -20px;
-      animation: caer 3s linear forwards;
+      z-index: 10;
+      animation: caer 3.5s linear forwards;
       border-radius: 2px;
     }
 
     @keyframes caer {
       to {
-        transform: translateY(100vh) rotate(720deg);
+        transform: translateY(110vh) rotate(720deg);
         opacity: 0;
       }
     }
   </style>
 </head>
 <body>
+
+  <!-- Tarjeta de la pregunta -->
   <div class="container" id="pregunta">
-    <div class="corazon">❤️</div>
-    <h1>¿Quieres ser mi novia?</h1>
-    <p>Sé que es una pregunta importante...<br>pero mi corazón ya eligió.</p>
-    
+    <div class="emoji">👑💕</div>
+    <h1>¿Quieres ser mi reina,<br>mi novia, mi todo?</h1>
+    <p class="subtitulo">
+      Porque desde que llegaste a mi vida,<br>
+      ya no imagino un día sin ti.
+    </p>
+
     <div class="botones">
-      <button id="si">¡Sí! 💕</button>
+      <button id="si">¡Sí, acepto! 💖</button>
       <button id="no">No</button>
     </div>
   </div>
 
+  <!-- Tarjeta de respuesta -->
   <div class="container respuesta" id="respuesta">
-    <div class="corazon">💖</div>
-    <h2>¡Síiiii!</h2>
-    <p>¡Ahora oficialmente eres mi novia!<br>Prometo hacerte muy feliz 🥰</p>
+    <div class="emoji">🥰👑</div>
+    <h2>¡Ahora eres oficialmente mi reina!</h2>
+    <p>
+      Gracias por decir que sí.<br>
+      Prometo cuidarte, amarte y hacerte sonreír<br>
+      todos los días de mi vida.
+    </p>
   </div>
 
   <script>
-    const btnNo = document.getElementById('no');
     const btnSi = document.getElementById('si');
+    const btnNo = document.getElementById('no');
     const pregunta = document.getElementById('pregunta');
     const respuesta = document.getElementById('respuesta');
-
-    // El botón "No" se escapa
-    btnNo.addEventListener('mouseover', () => {
-      const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 40);
-      const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 40);
-      
-      btnNo.style.position = 'fixed';
-      btnNo.style.left = `${x}px`;
-      btnNo.style.top = `${y}px`;
-    });
 
     // Cuando dice que sí
     btnSi.addEventListener('click', () => {
@@ -183,19 +198,26 @@
       crearConfeti();
     });
 
+    // Si presiona No (opcional: puedes poner un mensaje o simplemente no hacer nada)
+    btnNo.addEventListener('click', () => {
+      alert('¿Segura? 🥺 El botón de arriba está esperándote...');
+    });
+
     function crearConfeti() {
-      const colores = ['#e91e63', '#ff4081', '#f48fb1', '#ce93d8', '#ff80ab', '#ff1744'];
+      const colores = ['#e91e63', '#ff4081', '#f48fb1', '#ce93d8', '#ff80ab', '#ff1744', '#ffd700'];
       
-      for (let i = 0; i < 80; i++) {
+      for (let i = 0; i < 100; i++) {
         const confeti = document.createElement('div');
         confeti.classList.add('confeti');
         confeti.style.left = Math.random() * 100 + 'vw';
         confeti.style.background = colores[Math.floor(Math.random() * colores.length)];
-        confeti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        confeti.style.animationDelay = Math.random() * 0.5 + 's';
+        confeti.style.width = (Math.random() * 8 + 6) + 'px';
+        confeti.style.height = confeti.style.width;
+        confeti.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+        confeti.style.animationDelay = Math.random() * 0.6 + 's';
         document.body.appendChild(confeti);
 
-        setTimeout(() => confeti.remove(), 4000);
+        setTimeout(() => confeti.remove(), 4500);
       }
     }
   </script>
